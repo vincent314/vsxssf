@@ -3,6 +3,7 @@ package org.vince.vsxssf
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.streaming.SXSSFWorkbook
+import org.vince.vsxssf.PaperSizeEnum.*
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -13,11 +14,11 @@ class Workbook {
     var styles: LinkedHashMap<String, CellStyle> = LinkedHashMap()
     var pictures: LinkedHashMap<String, Int> = LinkedHashMap()
 
-
     fun sheet(sheetName: String? = null,
               colSize: Array<Int>,
               headerRows: Int? = null,
               landscape: Boolean = false,
+              paperSize: PaperSizeEnum? = null,
               init: Sheet.() -> Unit
     ): Sheet {
         val sxssfSheet = workbook.createSheet(sheetName)
@@ -26,6 +27,7 @@ class Workbook {
                     it.printSetup.fitWidth = 1
                     it.printSetup.fitHeight = 0
                     it.printSetup.landscape = landscape
+                    it.printSetup.paperSize = paperSize?.id ?: A4.id
                     if (headerRows != null) {
                         it.repeatingRows = CellRangeAddress(0, headerRows, 0, colSize.size)
                     }
@@ -51,7 +53,7 @@ class Workbook {
 
                     val font = workbook.createFont()
                     font.bold = options.bold
-                    if(options.fontHeight != null){
+                    if (options.fontHeight != null) {
                         font.fontHeightInPoints = options.fontHeight
                     }
                     it.setFont(font)
