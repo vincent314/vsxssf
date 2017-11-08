@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.*
 import org.apache.poi.ss.util.CellRangeAddress
 import org.apache.poi.xssf.streaming.SXSSFWorkbook
 import org.vince.vsxssf.PaperSizeEnum.*
-import java.io.File
+import java.io.OutputStream
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -42,8 +42,8 @@ class Workbook {
                 .also { it.init() }
     }
 
-    fun write(file: File) {
-        workbook.write(file.outputStream())
+    fun write(out:OutputStream) {
+        workbook.write(out)
     }
 
     fun style(styleName: String, options: StyleOptions) {
